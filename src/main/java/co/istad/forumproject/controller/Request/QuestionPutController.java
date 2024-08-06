@@ -23,8 +23,7 @@ public class QuestionPutController {
 
     @PutMapping("{slug}/views")
     QuestionResponse updateViewBySlug(@PathVariable String slug, @RequestParam String userName) {
-        questionService.increaseViewCount(slug,userName);
-        return null;
+        return questionService.increaseViewCount(slug,userName);
     }
 
 }

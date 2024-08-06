@@ -91,7 +91,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     //increase View
     @Override
-    public void increaseViewCount(String slug, String UserName) {
+    public QuestionResponse increaseViewCount(String slug, String UserName) {
         //Validate Slug
         boolean isExisting = questionRepository.findAllQuestion().stream()
                 .anyMatch(question -> question.getSlug()
@@ -103,12 +103,15 @@ public class QuestionServiceImpl implements QuestionService {
         if (!isExisting) {
             throw new RuntimeException();
         }
+        Question question = null;
         if (!isOwner) {
-            Question question = questionRepository.findAllQuestion().stream()
+            question = questionRepository.findAllQuestion().stream()
                     .filter(q -> q.getSlug().equals(slug)).findFirst().orElseThrow();
             question.setViewCount(question.getViewCount() + 1);
 
+
         }
+        return questionMapping.toQuestionResponse(question);
     }
 
 }

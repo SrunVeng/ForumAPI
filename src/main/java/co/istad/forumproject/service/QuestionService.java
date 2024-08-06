@@ -24,7 +24,7 @@ public interface QuestionService {
     UpdateQuestionRequest updateDescriptionBySlug(String slug, UpdateQuestionRequest updateQuestionRequest);
 
     //Count View by Request ( not Count view if owner Click ) (slug)
-    void increaseViewCount( String slug,String UserName);
+    QuestionResponse increaseViewCount( String slug,String UserName);
 
 
 
