@@ -19,8 +19,8 @@ public class ApiException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ErrorResponse<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         List<Map<String, String>> ErrorDetailResponse = new ArrayList<>();
-        Map<String, String> errorDetail = new HashMap<>();
         e.getFieldErrors().forEach(fieldError -> {
+            Map<String, String> errorDetail = new HashMap<>();
             errorDetail.put("fieldError", fieldError.getField());
             errorDetail.put("Reason", fieldError.getDefaultMessage());
             errorDetail.put("RejectedValue", Objects.requireNonNull(fieldError.getRejectedValue()).toString());
@@ -37,11 +37,9 @@ public class ApiException {
                 .build();
     }
 
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ResponseStatusException.class)
     ErrorResponse<?> handleMethodRuntimeException(ResponseStatusException e) {
-
 
         ErrorDetailsResponse<?> errorDetailsResponse = ErrorDetailsResponse.builder()
                 .code(e.getTitleMessageCode())
