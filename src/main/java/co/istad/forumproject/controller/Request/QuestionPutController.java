@@ -17,8 +17,7 @@ public class QuestionPutController {
 
     @PutMapping("{slug}")
     UpdateQuestionRequest updateQuestion(@PathVariable String slug, @Valid @RequestBody UpdateQuestionRequest updateQuestionRequest) {
-        questionService.updateDescriptionBySlug(slug, updateQuestionRequest);
-        return updateQuestionRequest;
+       return questionService.updateDescriptionBySlug(slug, updateQuestionRequest);
     }
 
     @PutMapping("{slug}/views")

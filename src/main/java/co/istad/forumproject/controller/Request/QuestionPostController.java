@@ -18,7 +18,6 @@ public class QuestionPostController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
      CreateNewQuestionRequest createNewQuestionRequest(@Valid @RequestBody CreateNewQuestionRequest createNewQuestionRequest) {
-        questionService.createNewQuestion(createNewQuestionRequest);
-        return createNewQuestionRequest;
+       return questionService.createNewQuestion(createNewQuestionRequest);
     }
 }

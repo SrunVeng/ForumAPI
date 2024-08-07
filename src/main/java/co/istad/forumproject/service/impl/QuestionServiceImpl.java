@@ -70,7 +70,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setViewCount(0L);
         question.setAnswers(new ArrayList<>());
         questionRepository.insert(question);
-        return createNewQuestionRequest;
+        return createNewQuestionRequest1;
     }
 
     @Override
