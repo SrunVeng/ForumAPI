@@ -1,6 +1,5 @@
 package co.istad.forumproject.dto.Response;
 
-import co.istad.forumproject.model.Answer;
 import lombok.Builder;
 
 import java.time.LocalDate;

@@ -11,7 +11,9 @@ import co.istad.forumproject.repository.QuestionRepository;
 import co.istad.forumproject.repository.Util;
 import co.istad.forumproject.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,12 +40,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public QuestionDetailsResponse findQuestionBySlug(String slug) {
         List<Question> questions = questionRepository.findAllQuestion();
-        return questions.stream()
+        return   questions.stream()
                 .filter(q -> q.getSlug().equals(slug))
                 //Use Mapstruct+Lombok , method reference to map Question Model to DTO
                 .map(questionMapping::toQuestionDetailsResponse)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Question with slug: " + slug + " does not already exists."));
     }
 
     @Override
@@ -54,7 +56,7 @@ public class QuestionServiceImpl implements QuestionService {
                         .equals(createNewQuestionRequest.slug()));
 
         if (isExisting) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Question with slug " + createNewQuestionRequest.slug() + " already exists.");
         }
 
         CreateNewQuestionRequest createNewQuestionRequest1 = CreateNewQuestionRequest.builder()
@@ -78,7 +80,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .anyMatch(question -> question.getSlug()
                         .equals(slug));
         if (!isExisting) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Question with slug " +slug + " does not exists.");
         }
         Question question = questionRepository.findAllQuestion().stream()
                 .filter(q -> q.getSlug().equals(slug)).findFirst().orElseThrow();
@@ -101,7 +103,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .anyMatch(q -> q.getCreatedBy().equals(UserName));
 
         if (!isExisting) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Question with slug " + slug + " does not exists.");
         }
         Question question = null;
         if (!isOwner) {
